@@ -8,28 +8,25 @@ public class NodeFactory(int n)
 
     private const int _startX = 100, _startY = 100;
     private const int _gap = 100;
-    private enum Direction
-    {
-        Right = 4,
-        Down = 6,
-        Left = 9,
-        Up = 1
-    }
-    private Direction _currentDirection = Direction.Right;
-    private static readonly Direction[] _directions = [
-        Direction.Right,
-        Direction.Down,
-        Direction.Left,
-        Direction.Up
-    ];
-    private Direction GetNextDirection()
-    {
-        int index = Array.IndexOf(_directions, _currentDirection);
-        if (index < 0 || index + 1 >= _directions.Length)
-            return _directions[0];
 
-        return _directions[index + 1];
-    }
+    private Direction _currentDirection = Direction.Right;
+    private Direction GetNext() => _currentDirection switch
+    {
+        Direction.Right => Direction.Down,
+        Direction.Down => Direction.Left,
+        Direction.Left => Direction.Up,
+        Direction.Up => Direction.Right,
+        _ => Direction.Right,
+    };
+    
+    public static Direction GetOpposite(Direction direction) => direction switch
+    {
+        Direction.Right => Direction.Left,
+        Direction.Left => Direction.Right,
+        Direction.Up => Direction.Down,
+        Direction.Down => Direction.Up,
+        _ => Direction.Right
+    };
 
     public void CreateAll()
     {
@@ -50,7 +47,7 @@ public class NodeFactory(int n)
                 y = _nodes[^1].Y;
 
                 if (i == (int)_currentDirection)
-                    _currentDirection = GetNextDirection();
+                    _currentDirection = GetNext();
 
                 switch (_currentDirection)
                 {
@@ -76,10 +73,18 @@ public class NodeFactory(int n)
 
 public class Node(int id, int x, int y)
 {
-    public int Id { get; private set; } = id;
-    public int X { get; private set; } = x;
-    public int Y { get; private set; } = y;
+    public int Id { get; } = id;
+    public int X { get; } = x;
+    public int Y { get; } = y;
     public const int Radius = 25;
 
     public override string ToString() => $"{Id}: ({X}, {Y})";
+}
+
+public enum Direction
+{
+    Right = 4,
+    Down = 6,
+    Left = 9,
+    Up = 1
 }

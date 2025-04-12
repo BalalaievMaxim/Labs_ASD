@@ -15,13 +15,9 @@ public class Generator
         ParseFromCode();
 
         _random = new(int.Parse(_code));
-
-
-
-        Await();
     }
 
-    private uint GetN(int position) => uint.Parse(_code[position + 1].ToString());
+    private uint GetN(int position) => uint.Parse(_code[position - 1].ToString());
 
     private void ParseFromCode()
     {
@@ -33,7 +29,7 @@ public class Generator
         _k = 1 - GetN(3) * 0.02f - GetN(4) * 0.005f - 0.25f;
     }
 
-    private int[,] GenerateMatrix()
+    public int[,] GenerateMatrix()
     {
         var matrix = new int[_n, _n];
 
@@ -52,9 +48,23 @@ public class Generator
         return matrix;
     }
 
-    private static void Await()
+    public static void Await()
     {
         Console.Write($"Натисніть Enter, щоб продовжити...");
         Console.ReadLine();
+    }
+
+    public static void PrintMatrix(int[,] matrix)
+    {
+        Console.WriteLine("Матриця суміжності:");
+        for (var i = 0; i < matrix.GetLength(0); i++)
+        {
+            for (var j = 0; j < matrix.GetLength(1); j++)
+            {
+                Console.Write($"{matrix[i, j]} ");
+            }
+
+            Console.WriteLine();
+        }
     }
 }
