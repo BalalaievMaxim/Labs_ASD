@@ -1,6 +1,6 @@
 ﻿namespace lab3;
 
-partial class MainForm
+partial class UndirectedForm
 {
     private System.ComponentModel.IContainer components = null;
 
@@ -23,7 +23,7 @@ partial class MainForm
     {
         this.components = new System.ComponentModel.Container();
         this.ClientSize = new System.Drawing.Size(500, 420);
-        this.Text = "ASD Lab №3";
+        this.Text = "Ненапрямлений граф";
     }
 
     #endregion

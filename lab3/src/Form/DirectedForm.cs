@@ -1,13 +1,13 @@
 namespace lab3;
 
-public partial class MainForm : Form
+public partial class DirectedForm : Form
 {
     private readonly NodeFactory _nodeFactory;
     private readonly LinkFactory _linkFactory;
 
     private Graphics? _graphics;
 
-    public MainForm(NodeFactory nodeFactory, LinkFactory linkFactory)
+    public DirectedForm(NodeFactory nodeFactory, LinkFactory linkFactory)
     {
         _nodeFactory = nodeFactory;
         _linkFactory = linkFactory;
@@ -22,14 +22,15 @@ public partial class MainForm : Form
         base.OnPaint(e);
         _graphics = e.Graphics;
 
-        foreach (var link in _linkFactory.Links)
-        {
-            Draw(link);
-        }
         foreach (var node in _nodeFactory.Nodes)
         {
             Draw(node);
         }
+        foreach (var link in _linkFactory.Links)
+        {
+            Draw(link);
+        }
+
     }
 
     private void Draw(Node node)
@@ -38,8 +39,8 @@ public partial class MainForm : Form
 
         _graphics.FillEllipse(
             new SolidBrush(Color.LightGray),
-            node.X - Node.Radius,
-            node.Y - Node.Radius,
+            node.Point.X - Node.Radius,
+            node.Point.Y - Node.Radius,
             Node.Radius * 2,
             Node.Radius * 2
         );
@@ -48,8 +49,8 @@ public partial class MainForm : Form
             node.Id.ToString(),
             Font,
             Brushes.Black,
-            node.X - _textOffset,
-            node.Y - _textOffset
+            node.Point.X - _textOffset,
+            node.Point.Y - _textOffset
         );
     }
 
@@ -60,7 +61,12 @@ public partial class MainForm : Form
         switch (link.Type)
         {
             case LinkType.Normal:
-                _graphics.DrawLine(Pens.Black, link.From.X, link.From.Y, link.To.X, link.To.Y);
+                _graphics.DrawLine(Pens.Black, link.From.Point, link.To.Point);
+                break;
+
+            case LinkType.VisibilityObstructed:
+                _graphics.DrawLine(Pens.Black, link.From.Point, link.PolygonalLinkVertice);
+                _graphics.DrawLine(Pens.Black, link.PolygonalLinkVertice, link.To.Point);
                 break;
 
         }

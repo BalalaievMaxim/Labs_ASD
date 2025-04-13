@@ -14,6 +14,9 @@ static class Program
         linkFactory.CreateAll(matrix);
 
         ApplicationConfiguration.Initialize();
-        Application.Run(new MainForm(nodeFactory, linkFactory));
+        // new UndirectedForm(nodeFactory, linkFactory).Show();
+        Application.Run(new UndirectedForm(nodeFactory, linkFactory));
+        // Application.Run(new CircleArrowForm());
+
     }
 }
