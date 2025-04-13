@@ -22,7 +22,7 @@ public class LinkFactory(NodeFactory nodeFactory, bool undirected = false)
         }
     }
 
-    public static int RandomizeOffset() => new Random().Next(40, 60);
+    public static int RandomizeOffset() => new Random().Next(40, 80);
 }
 
 public class Link
@@ -47,41 +47,6 @@ public class Link
                 new Point(from.Point.X - Node.Radius * 2, from.Point.Y),
                 new Point(from.Point.X - Node.Radius, from.Point.Y),
             ];
-
-            // switch (from.Outer)
-            // {
-            //     case Direction.Up:
-            //         SelfLinkVertices = [
-            //             new Point(From.Point.X - Node.Radius, from.Point.Y),
-            //             new Point(from.Point.X - Node.Radius * 2, from.Point.Y - Node.Radius * 2),
-            //             new Point(from.Point.X, from.Point.Y - Node.Radius),
-            //         ];
-            //         break;
-
-            //     case Direction.Right:
-            //         SelfLinkVertices = [
-            //             new Point(From.Point.X, from.Point.Y - Node.Radius),
-            //             new Point(from.Point.X + Node.Radius * 2, from.Point.Y - Node.Radius * 2),
-            //             new Point(from.Point.X + Node.Radius, from.Point.Y),
-            //         ];
-            //         break;
-
-            //     case Direction.Down:
-            //         SelfLinkVertices = [
-            //             new Point(From.Point.X + Node.Radius, from.Point.Y),
-            //             new Point(from.Point.X + Node.Radius * 2, from.Point.Y + Node.Radius * 2),
-            //             new Point(from.Point.X, from.Point.Y + Node.Radius),
-            //         ];
-            //         break;
-
-            //     case Direction.Left:
-            //         SelfLinkVertices = [
-            //             new Point(From.Point.X, from.Point.Y + Node.Radius),
-            //             new Point(from.Point.X - Node.Radius * 2, from.Point.Y + Node.Radius * 2),
-            //             new Point(from.Point.X - Node.Radius, from.Point.Y),
-            //         ];
-            //         break;
-            // }
         }
         else if (
             from.Point.X == to.Point.X &&
