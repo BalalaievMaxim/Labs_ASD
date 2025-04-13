@@ -42,45 +42,6 @@ public class Link
         if (from == to)
         {
             Type = LinkType.SelfPointing;
-            // int VECTOR_LENGTH = (int)(Node.Radius * 2 - Node.Radius / 2 * MathF.Sqrt(3));
-
-            // switch (from.Outer)
-            // {
-            //     case Direction.Up:
-            //     case Direction.Down:
-            //         SelfLinkVertices[1] = new Point(
-            //                 from.Point.X - Node.Radius / 2,
-            //                 from.Point.Y + (from.Outer == Direction.Up ? -Node.Radius * 2 : Node.Radius * 2)
-            //             );
-            //         SelfLinkVertices[2] = new Point(
-            //             SelfLinkVertices[0].X + Node.Radius,
-            //             SelfLinkVertices[0].Y
-            //         );
-
-            //         SelfLinkVertices[0] = new Point(
-            //             SelfLinkVertices[1].X,
-            //             SelfLinkVertices[1].Y + (from.Outer == Direction.Up ? -VECTOR_LENGTH : VECTOR_LENGTH)
-            //         );
-            //         SelfLinkVertices[3] = new Point(
-            //             SelfLinkVertices[2].X,
-            //             SelfLinkVertices[2].Y + (from.Outer == Direction.Up ? -VECTOR_LENGTH : VECTOR_LENGTH)
-            //         );
-
-            //         break;
-
-            //     case Direction.Left:
-            //     case Direction.Right:
-            //         SelfLinkVertices[1] = new Point(
-            //                 from.Point.X + (from.Outer == Direction.Right ? -Node.Radius * 2 : Node.Radius * 2),
-            //                 from.Point.Y - Node.Radius / 2
-            //             );
-            //         SelfLinkVertices[2] = new Point(
-            //             SelfLinkVertices[0].X,
-            //             SelfLinkVertices[0].Y + Node.Radius
-            //         );
-
-            //         break;
-            // }
 
             switch (from.Outer)
             {

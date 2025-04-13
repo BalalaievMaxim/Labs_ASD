@@ -22,15 +22,15 @@ public partial class UndirectedForm : Form
         base.OnPaint(e);
         _graphics = e.Graphics;
 
-
-        foreach (var node in _nodeFactory.Nodes)
-        {
-            Draw(node);
-        }
         foreach (var link in _linkFactory.Links)
         {
             Draw(link);
         }
+        foreach (var node in _nodeFactory.Nodes)
+        {
+            Draw(node);
+        }
+
     }
 
     private void Draw(Node node)
@@ -62,23 +62,20 @@ public partial class UndirectedForm : Form
         {
             case LinkType.Normal:
                 {
-                    var (start, end) = link.GetLineCoords();
-                    DrawArrow(start, end);
-                    DrawArrow(end, start);
+                    DrawLine(link.From.Point, link.To.Point);
                     break;
                 }
 
             case LinkType.VisibilityObstructed:
                 {
-                    var (start, end) = link.GetLineCoords();
-                    DrawArrow(link.PolygonalLinkVertice, start);
-                    DrawArrow(link.PolygonalLinkVertice, end);
+                    DrawLine(link.From.Point, link.PolygonalLinkVertice);
+                    DrawArrow(link.PolygonalLinkVertice, link.To.Point);
                     break;
                 }
 
             case LinkType.SelfPointing:
-                DrawArrow(link.SelfLinkVertices[1], link.SelfLinkVertices[0]);
-                DrawArrow(link.SelfLinkVertices[1], link.SelfLinkVertices[2]);
+                DrawLine(link.SelfLinkVertices[1], link.SelfLinkVertices[0]);
+                DrawLine(link.SelfLinkVertices[1], link.SelfLinkVertices[2]);
 
                 break;
         }
@@ -110,13 +107,6 @@ public partial class UndirectedForm : Form
     {
         if (_graphics == null) return;
         _graphics.DrawLine(Pens.Black, start, end);
-    }
-
-    private void DrawSelfPointing(Link link)
-    {
-
-
-        DrawArrow(link.SelfLinkVertices[0], link.SelfLinkVertices[1]);
     }
 }
 
