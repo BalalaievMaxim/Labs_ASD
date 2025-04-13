@@ -62,24 +62,34 @@ public partial class DirectedForm : Form
             case LinkType.Normal:
                 {
                     var (start, end) = link.GetLineCoords();
-                    DrawArrow(start, end);
+
+                    if (!link.HasInvertion)
+                    {
+                        DrawArrow(start, end);
+                    }
+                    else
+                    {
+                        DrawLine(start, link.PolygonalLinkVertice);
+                        DrawArrow(link.PolygonalLinkVertice, end);
+                    }
+
                     break;
                 }
 
-            case LinkType.VisibilityObstructed:
-                {
-                    var (start, end) = link.GetLineCoords();
-                    DrawLine(start, link.PolygonalLinkVertice);
-                    DrawArrow(link.PolygonalLinkVertice, end);
+                case LinkType.VisibilityObstructed:
+                    {
+                        var (start, end) = link.GetLineCoords();
+                        DrawLine(start, link.PolygonalLinkVertice);
+                        DrawArrow(link.PolygonalLinkVertice, end);
+                        break;
+                    }
+
+                case LinkType.SelfPointing:
+                    DrawLine(link.From.Point, link.SelfLinkVertices[0]);
+                    DrawLine(link.SelfLinkVertices[0], link.SelfLinkVertices[1]);
+                    DrawArrow(link.SelfLinkVertices[1], link.SelfLinkVertices[2]);
+
                     break;
-                }
-
-            case LinkType.SelfPointing:
-                DrawLine(link.From.Point, link.SelfLinkVertices[0]);
-                DrawLine(link.SelfLinkVertices[0], link.SelfLinkVertices[1]);
-                DrawArrow(link.SelfLinkVertices[1], link.SelfLinkVertices[2]);
-
-                break;
         }
 
     }

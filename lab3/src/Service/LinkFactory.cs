@@ -1,3 +1,5 @@
+using System.Windows.Forms.VisualStyles;
+
 namespace lab3;
 
 public class LinkFactory(NodeFactory nodeFactory, bool undirected = false)
@@ -15,8 +17,21 @@ public class LinkFactory(NodeFactory nodeFactory, bool undirected = false)
             {
                 if (matrix[i, j] == 1)
                 {
-                    if (_undirected && matrix[j, i] == 1) matrix[j, i] = 0;
-                    _links.Add(new Link(_nodeFactory.Nodes[i], _nodeFactory.Nodes[j]));
+                    bool hasInvertion = false;
+                    if (matrix[j, i] == 1)
+                    {
+                        if (!_undirected)
+                        {
+                            matrix[j, i] = 2;
+                            hasInvertion = true;
+                        }
+
+                    }
+                    _links.Add(new Link(_nodeFactory.Nodes[i], _nodeFactory.Nodes[j], hasInvertion));
+                }
+                else if (matrix[i, j] == 2)
+                {
+                    _links.Add(new Link(_nodeFactory.Nodes[i], _nodeFactory.Nodes[j], false));
                 }
             }
         }
@@ -30,14 +45,20 @@ public class Link
     public Node From { get; }
     public Node To { get; }
     public LinkType Type { get; }
+    public bool HasInvertion { get; }
+    private readonly int _offset = 40;
 
     public Point PolygonalLinkVertice;
     public Point[] SelfLinkVertices = new Point[3];
 
-    public Link(Node from, Node to)
+    public Link(Node from, Node to, bool hasInvertion)
     {
         From = from;
         To = to;
+        HasInvertion = hasInvertion;
+
+        if (hasInvertion)
+            _offset = -_offset;
 
         if (from == to)
         {
@@ -56,7 +77,7 @@ public class Link
             Type = LinkType.VisibilityObstructed;
             PolygonalLinkVertice = new(
                 from.Point.X + (
-                    from.Outer == Direction.Right ? -LinkFactory.RandomizeOffset() : LinkFactory.RandomizeOffset()
+                    from.Outer == Direction.Right ? _offset : -_offset
                 ),
                 (from.Point.Y + to.Point.Y) / 2
             );
@@ -71,12 +92,19 @@ public class Link
             PolygonalLinkVertice = new(
                 (from.Point.X + to.Point.X) / 2,
                 from.Point.Y + (
-                    from.Outer == Direction.Up ? -LinkFactory.RandomizeOffset() : +LinkFactory.RandomizeOffset()
+                    from.Outer == Direction.Down ? +_offset : -_offset
                 )
             );
         }
 
-        else Type = LinkType.Normal;
+        else
+        {
+            Type = LinkType.Normal;
+            if (hasInvertion) PolygonalLinkVertice = new Point(
+                (from.Point.X + to.Point.X) / 2 + _offset,
+                (from.Point.Y + to.Point.Y) / 2 + _offset
+            );
+        }
 
     }
     public static bool IsRectangleSide(Link link) => link.From.Outer == link.To.Outer;
@@ -95,7 +123,7 @@ public class Link
         return (start, end);
     }
 
-    public override string ToString() => $"{From.Id} -> {To.Id}";
+    public override string ToString() => $"{From.Id} -> {To.Id}, HasInvertion: {HasInvertion}";
 
 }
 
