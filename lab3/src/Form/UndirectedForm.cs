@@ -22,13 +22,14 @@ public partial class UndirectedForm : Form
         base.OnPaint(e);
         _graphics = e.Graphics;
 
-        foreach (var link in _linkFactory.Links)
-        {
-            Draw(link);
-        }
+
         foreach (var node in _nodeFactory.Nodes)
         {
             Draw(node);
+        }
+        foreach (var link in _linkFactory.Links)
+        {
+            Draw(link);
         }
     }
 
@@ -60,18 +61,20 @@ public partial class UndirectedForm : Form
         switch (link.Type)
         {
             case LinkType.Normal:
-                _graphics.DrawLine(Pens.Black, link.From.Point, link.To.Point);
+                var (start, end) = link.GetLineCoords();
+                DrawArrow(start, end);
+                DrawArrow(end, start);
                 break;
 
-            case LinkType.VisibilityObstructed:
-                _graphics.DrawLine(Pens.Black, link.From.Point, link.PolygonalLinkVertice);
-                _graphics.DrawLine(Pens.Black, link.PolygonalLinkVertice, link.To.Point);
-                break;
+            // case LinkType.VisibilityObstructed:
+            //     _graphics.DrawLine(Pens.Black, link.From.Point, link.PolygonalLinkVertice);
+            //     _graphics.DrawLine(Pens.Black, link.PolygonalLinkVertice, link.To.Point);
+            //     break;
 
         }
     }
 
-    private void DrawArrow(Point start, Point end)
+    private void DrawArrow(PointF start, PointF end)
     {
         if (_graphics == null) return;
 
@@ -90,6 +93,12 @@ public partial class UndirectedForm : Form
 
         _graphics.DrawLine(pen, end, arrow1);
         _graphics.DrawLine(pen, end, arrow2);
+    }
+
+    private void DrawLine(Point start, Point end)
+    {
+        if (_graphics == null) return;
+        _graphics.DrawLine(Pens.Black, start, end);
     }
 
 }

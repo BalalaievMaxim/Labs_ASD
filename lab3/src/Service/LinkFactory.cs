@@ -68,8 +68,21 @@ public class Link
         else Type = LinkType.Normal;
 
     }
-
     public static bool IsRectangleSide(Link link) => link.From.Outer == link.To.Outer;
+    public (PointF, PointF) GetLineCoords()
+    {
+        float dx = To.Point.X - From.Point.X;
+        float dy = To.Point.Y - From.Point.Y;
+        float dist = (float)Math.Sqrt(dx * dx + dy * dy);
+
+        float ux = dx / dist;
+        float uy = dy / dist;
+
+        PointF start = new(From.Point.X + ux * Node.Radius, From.Point.Y + uy * Node.Radius);
+        PointF end = new(To.Point.X - ux * Node.Radius, To.Point.Y - uy * Node.Radius);
+
+        return (start, end);
+    }
 
     public override string ToString() => $"{From.Id} -> {To.Id}";
 
