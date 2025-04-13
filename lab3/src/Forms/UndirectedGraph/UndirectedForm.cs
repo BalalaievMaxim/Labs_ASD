@@ -74,8 +74,9 @@ public partial class UndirectedForm : Form
                 }
 
             case LinkType.SelfPointing:
-                DrawLine(link.SelfLinkVertices[1], link.SelfLinkVertices[0]);
-                DrawLine(link.SelfLinkVertices[1], link.SelfLinkVertices[2]);
+                DrawLine(link.From.Point, link.SelfLinkVertices[0]);
+                DrawLine(link.SelfLinkVertices[0], link.SelfLinkVertices[1]);
+                DrawLine(link.SelfLinkVertices[1], link.From.Point);
 
                 break;
         }

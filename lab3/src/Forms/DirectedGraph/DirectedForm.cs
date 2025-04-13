@@ -22,14 +22,13 @@ public partial class DirectedForm : Form
         base.OnPaint(e);
         _graphics = e.Graphics;
 
-
-        foreach (var node in _nodeFactory.Nodes)
-        {
-            Draw(node);
-        }
         foreach (var link in _linkFactory.Links)
         {
             Draw(link);
+        }
+        foreach (var node in _nodeFactory.Nodes)
+        {
+            Draw(node);
         }
     }
 
@@ -76,7 +75,8 @@ public partial class DirectedForm : Form
                 }
 
             case LinkType.SelfPointing:
-                DrawArrow(link.SelfLinkVertices[1], link.SelfLinkVertices[0]);
+                DrawLine(link.From.Point, link.SelfLinkVertices[0]);
+                DrawLine(link.SelfLinkVertices[0], link.SelfLinkVertices[1]);
                 DrawArrow(link.SelfLinkVertices[1], link.SelfLinkVertices[2]);
 
                 break;

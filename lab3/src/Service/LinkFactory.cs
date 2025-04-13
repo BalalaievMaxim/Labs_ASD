@@ -42,41 +42,46 @@ public class Link
         if (from == to)
         {
             Type = LinkType.SelfPointing;
+            SelfLinkVertices = [
+                new Point(from.Point.X, from.Point.Y - Node.Radius * 2),
+                new Point(from.Point.X - Node.Radius * 2, from.Point.Y),
+                new Point(from.Point.X - Node.Radius, from.Point.Y),
+            ];
 
-            switch (from.Outer)
-            {
-                case Direction.Up:
-                    SelfLinkVertices = [
-                        new Point(From.Point.X - Node.Radius, from.Point.Y),
-                        new Point(from.Point.X - Node.Radius * 2, from.Point.Y - Node.Radius * 2),
-                        new Point(from.Point.X, from.Point.Y - Node.Radius),
-                    ];
-                    break;
+            // switch (from.Outer)
+            // {
+            //     case Direction.Up:
+            //         SelfLinkVertices = [
+            //             new Point(From.Point.X - Node.Radius, from.Point.Y),
+            //             new Point(from.Point.X - Node.Radius * 2, from.Point.Y - Node.Radius * 2),
+            //             new Point(from.Point.X, from.Point.Y - Node.Radius),
+            //         ];
+            //         break;
 
-                case Direction.Right:
-                    SelfLinkVertices = [
-                        new Point(From.Point.X, from.Point.Y - Node.Radius),
-                        new Point(from.Point.X + Node.Radius * 2, from.Point.Y - Node.Radius * 2),
-                        new Point(from.Point.X + Node.Radius, from.Point.Y),
-                    ];
-                    break;
+            //     case Direction.Right:
+            //         SelfLinkVertices = [
+            //             new Point(From.Point.X, from.Point.Y - Node.Radius),
+            //             new Point(from.Point.X + Node.Radius * 2, from.Point.Y - Node.Radius * 2),
+            //             new Point(from.Point.X + Node.Radius, from.Point.Y),
+            //         ];
+            //         break;
 
-                case Direction.Down:
-                    SelfLinkVertices = [
-                        new Point(From.Point.X + Node.Radius, from.Point.Y),
-                        new Point(from.Point.X + Node.Radius * 2, from.Point.Y + Node.Radius * 2),
-                        new Point(from.Point.X, from.Point.Y + Node.Radius),
-                    ];
-                    break;
+            //     case Direction.Down:
+            //         SelfLinkVertices = [
+            //             new Point(From.Point.X + Node.Radius, from.Point.Y),
+            //             new Point(from.Point.X + Node.Radius * 2, from.Point.Y + Node.Radius * 2),
+            //             new Point(from.Point.X, from.Point.Y + Node.Radius),
+            //         ];
+            //         break;
 
-                case Direction.Left:
-                    SelfLinkVertices = [
-                        new Point(From.Point.X, from.Point.Y + Node.Radius),
-                        new Point(from.Point.X - Node.Radius * 2, from.Point.Y + Node.Radius * 2),
-                        new Point(from.Point.X - Node.Radius, from.Point.Y),
-                    ];
-                    break;
-            }
+            //     case Direction.Left:
+            //         SelfLinkVertices = [
+            //             new Point(From.Point.X, from.Point.Y + Node.Radius),
+            //             new Point(from.Point.X - Node.Radius * 2, from.Point.Y + Node.Radius * 2),
+            //             new Point(from.Point.X - Node.Radius, from.Point.Y),
+            //         ];
+            //         break;
+            // }
         }
         else if (
             from.Point.X == to.Point.X &&
@@ -135,10 +140,3 @@ public enum LinkType
     SelfPointing,
     VisibilityObstructed
 }
-
-
-public class DirectedLink(Node from, Node to) : Link(from, to)
-{
-
-}
-
