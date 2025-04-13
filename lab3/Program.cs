@@ -11,13 +11,13 @@ static class Program
         NodeFactory nodeFactory = new(10);
         nodeFactory.CreateAll();
 
+        LinkFactory directedLinkFactory = new(nodeFactory);
+        directedLinkFactory.CreateAll(matrix);
         LinkFactory undirectedLinkFactory = new(nodeFactory, true);
         undirectedLinkFactory.CreateAll(matrix);
-        // LinkFactory directedLinkFactory = new(nodeFactory, false);
-        // directedLinkFactory.CreateAll(matrix.Clone() as int[,]);
 
         ApplicationConfiguration.Initialize();
-        // new UndirectedForm(nodeFactory, undirectedLinkFactory).Show();
+        new DirectedForm(nodeFactory, directedLinkFactory).Show();
         Application.Run(new UndirectedForm(nodeFactory, undirectedLinkFactory));
         // Application.Run(new DirectedForm(nodeFactory, directedLinkFactory));
     }

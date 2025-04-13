@@ -69,7 +69,7 @@ public partial class UndirectedForm : Form
             case LinkType.VisibilityObstructed:
                 {
                     DrawLine(link.From.Point, link.PolygonalLinkVertice);
-                    DrawArrow(link.PolygonalLinkVertice, link.To.Point);
+                    DrawLine(link.PolygonalLinkVertice, link.To.Point);
                     break;
                 }
 
@@ -80,27 +80,6 @@ public partial class UndirectedForm : Form
                 break;
         }
 
-    }
-
-    private void DrawArrow(PointF start, PointF end)
-    {
-        if (_graphics == null) return;
-
-        Pen pen = Pens.Black;
-        _graphics.DrawLine(pen, start, end);
-
-        // Arrowhead
-        const float arrowSize = 10f;
-        double angle = Math.Atan2(end.Y - start.Y, end.X - start.X);
-        PointF arrow1 = new PointF(
-            end.X - arrowSize * (float)Math.Cos(angle - Math.PI / 6),
-            end.Y - arrowSize * (float)Math.Sin(angle - Math.PI / 6));
-        PointF arrow2 = new PointF(
-            end.X - arrowSize * (float)Math.Cos(angle + Math.PI / 6),
-            end.Y - arrowSize * (float)Math.Sin(angle + Math.PI / 6));
-
-        _graphics.DrawLine(pen, end, arrow1);
-        _graphics.DrawLine(pen, end, arrow2);
     }
 
     private void DrawLine(Point start, Point end)
