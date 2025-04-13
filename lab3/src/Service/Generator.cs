@@ -27,6 +27,7 @@ public class Generator
         Console.WriteLine($"Розміщення вершин - квадратом (прямокутником), бо n4 = {GetN(4)}");
 
         _k = 1 - GetN(3) * 0.02f - GetN(4) * 0.005f - 0.25f;
+        Console.WriteLine($"Коефіцієнт k = {_k}");
     }
 
     public int[,] GenerateMatrix()

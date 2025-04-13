@@ -77,7 +77,7 @@ public class Link
             Type = LinkType.VisibilityObstructed;
             PolygonalLinkVertice = new(
                 from.Point.X + (
-                    from.Outer == Direction.Right ? _offset : -_offset
+                    from.Outer == Direction.Right ? +_offset : -_offset
                 ),
                 (from.Point.Y + to.Point.Y) / 2
             );
