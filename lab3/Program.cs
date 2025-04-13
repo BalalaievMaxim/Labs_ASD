@@ -4,8 +4,14 @@ static class Program
 {
     public static void Main()
     {
-        int[,] matrix = new Generator("4303").GenerateMatrix();
+        Generator generator = new("4303");
+        int[,] matrix = generator.GenerateMatrix();
+
+        System.Console.WriteLine("Матриця суміжності напрямленого графа:");
         Generator.PrintMatrix(matrix);
+        System.Console.WriteLine("Матриця суміжності ненапрямленого графа:");
+        Generator.PrintMatrix(generator.MakeMatrixUndirected(matrix));
+
         Generator.Await();
 
         NodeFactory nodeFactory = new(10);

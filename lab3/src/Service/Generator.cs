@@ -49,6 +49,19 @@ public class Generator
         return matrix;
     }
 
+    public int[,] MakeMatrixUndirected(int[,] matrix)
+    {
+        for (var i = 0; i < _n; i++)
+        {
+            for (var j = i + 1; j < _n; j++)
+            {
+                matrix[j, i] = matrix[i, j];
+            }
+        }
+
+        return matrix;
+    }
+
     public static void Await()
     {
         Console.Write($"Натисніть Enter, щоб продовжити...");
@@ -57,7 +70,6 @@ public class Generator
 
     public static void PrintMatrix(int[,] matrix)
     {
-        Console.WriteLine("Матриця суміжності:");
         for (var i = 0; i < matrix.GetLength(0); i++)
         {
             for (var j = 0; j < matrix.GetLength(1); j++)
