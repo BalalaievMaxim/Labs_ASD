@@ -7,7 +7,7 @@ public class NodeFactory(int n)
     public List<Node> Nodes => _nodes;
 
     private const int _startX = 100, _startY = 100;
-    public const int Gap = 100;
+    public const int Gap = 200;
 
     private Direction _currentDirection = Direction.Right;
     private Direction GetNext() => _currentDirection switch

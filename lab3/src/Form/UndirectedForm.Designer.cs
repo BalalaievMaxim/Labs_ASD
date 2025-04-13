@@ -22,7 +22,7 @@ partial class UndirectedForm
     private void InitializeComponent()
     {
         this.components = new System.ComponentModel.Container();
-        this.ClientSize = new System.Drawing.Size(500, 420);
+        this.ClientSize = new System.Drawing.Size(800, 600);
         this.Text = "Ненапрямлений граф";
     }
 

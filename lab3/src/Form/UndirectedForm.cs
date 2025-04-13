@@ -61,15 +61,20 @@ public partial class UndirectedForm : Form
         switch (link.Type)
         {
             case LinkType.Normal:
-                var (start, end) = link.GetLineCoords();
-                DrawArrow(start, end);
-                DrawArrow(end, start);
-                break;
+                {
+                    var (start, end) = link.GetLineCoords();
+                    DrawArrow(start, end);
+                    DrawArrow(end, start);
+                    break;
+                }
 
-            // case LinkType.VisibilityObstructed:
-            //     _graphics.DrawLine(Pens.Black, link.From.Point, link.PolygonalLinkVertice);
-            //     _graphics.DrawLine(Pens.Black, link.PolygonalLinkVertice, link.To.Point);
-            //     break;
+            case LinkType.VisibilityObstructed:
+                {
+                    var (start, end) = link.GetLineCoords();
+                    DrawArrow(link.PolygonalLinkVertice, start);
+                    DrawArrow(link.PolygonalLinkVertice, end);
+                    break;
+                }
 
         }
     }

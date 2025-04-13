@@ -1,12 +1,11 @@
 namespace lab3;
 
-public class LinkFactory(NodeFactory nodeFactory)
+public class LinkFactory(NodeFactory nodeFactory, bool undirected = false)
 {
     private readonly NodeFactory _nodeFactory = nodeFactory;
     private readonly List<Link> _links = [];
     public List<Link> Links => _links;
-
-    public const int DefaultLinkOffset = 50;
+    private readonly bool _undirected = undirected;
 
     public void CreateAll(int[,] matrix)
     {
@@ -16,11 +15,14 @@ public class LinkFactory(NodeFactory nodeFactory)
             {
                 if (matrix[i, j] == 1)
                 {
+                    if (_undirected && matrix[j, i] == 1) matrix[j, i] = 0;
                     _links.Add(new Link(_nodeFactory.Nodes[i], _nodeFactory.Nodes[j]));
                 }
             }
         }
     }
+
+    public static int RandomizeOffset() => new Random().Next(40, 60);
 }
 
 public class Link
@@ -39,21 +41,19 @@ public class Link
         if (from == to) Type = LinkType.SelfPointing;
         else if (
             from.Point.X == to.Point.X &&
-            IsRectangleSide(this) &&
             MathF.Abs(from.Point.Y - to.Point.Y) != NodeFactory.Gap
         )
         {
             Type = LinkType.VisibilityObstructed;
             PolygonalLinkVertice = new(
                 from.Point.X + (
-                    from.Outer == Direction.Right ? -LinkFactory.DefaultLinkOffset : LinkFactory.DefaultLinkOffset
+                    from.Outer == Direction.Right ? -LinkFactory.RandomizeOffset() : LinkFactory.RandomizeOffset()
                 ),
                 (from.Point.Y + to.Point.Y) / 2
             );
         }
         else if (
             from.Point.Y == to.Point.Y &&
-            IsRectangleSide(this) &&
             MathF.Abs(from.Point.X - to.Point.X) != NodeFactory.Gap
         )
         {
@@ -61,7 +61,7 @@ public class Link
             PolygonalLinkVertice = new(
                 (from.Point.X + to.Point.X) / 2,
                 from.Point.Y + (
-                    from.Outer == Direction.Up ? -LinkFactory.DefaultLinkOffset : +LinkFactory.DefaultLinkOffset
+                    from.Outer == Direction.Up ? -LinkFactory.RandomizeOffset() : +LinkFactory.RandomizeOffset()
                 )
             );
         }
