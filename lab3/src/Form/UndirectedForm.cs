@@ -76,7 +76,13 @@ public partial class UndirectedForm : Form
                     break;
                 }
 
+            case LinkType.SelfPointing:
+                DrawArrow(link.SelfLinkVertices[1], link.SelfLinkVertices[0]);
+                DrawArrow(link.SelfLinkVertices[1], link.SelfLinkVertices[2]);
+
+                break;
         }
+
     }
 
     private void DrawArrow(PointF start, PointF end)
@@ -106,4 +112,11 @@ public partial class UndirectedForm : Form
         _graphics.DrawLine(Pens.Black, start, end);
     }
 
+    private void DrawSelfPointing(Link link)
+    {
+
+
+        DrawArrow(link.SelfLinkVertices[0], link.SelfLinkVertices[1]);
+    }
 }
+
