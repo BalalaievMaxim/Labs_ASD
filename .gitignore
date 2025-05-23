@@ -2,6 +2,8 @@
 *.exe
 *.docx
 *.bat
+*.zip
+Konspect_ASD.pdf
 ASD2_Labs.pdf
 
 ## A streamlined .gitignore for modern .NET projects
