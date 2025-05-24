@@ -86,7 +86,7 @@ public class VertexFactory(int n)
     public void Reset()
     {
         foreach (var node in _nodes)
-            node.Visited = false;
+            node.State = VertexState.New;
     }
 }
 
@@ -96,7 +96,7 @@ public class Vertex(int id, int x, int y, Direction outer)
     public Point Point { get; } = new Point(x, y);
     public Direction Outer { get; } = outer;
     public const int Radius = 25;
-    public bool Visited;
+    public VertexState State;
 
     public override string ToString() => $"{Id}: ({Point.X}, {Point.Y})";
 }
@@ -107,4 +107,12 @@ public enum Direction
     Down = 6,
     Left = 9,
     Up = 1
+}
+
+public enum VertexState
+{
+    New,
+    Visited,
+    Active,
+    Closed
 }

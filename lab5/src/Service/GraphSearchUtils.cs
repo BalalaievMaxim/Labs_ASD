@@ -2,7 +2,7 @@ namespace lab5;
 
 public static class GraphSearchUtils
 {
-    public static event Action<Vertex>? OnVertexVisited;
+    public static event Action? OnRedrawNeeded;
     public static event Action<int, int>? OnEdgeVisited;
     public static event Action<int[,]>? OnBFSFinished;
     public static event Action<int[,]>? OnDFSFinished;
@@ -26,8 +26,9 @@ public static class GraphSearchUtils
         while (queue.Count > 0)
         {
             int u = queue.Dequeue();
-            yield return () => OnVertexVisited?.Invoke(vertices[u]);
-            Console.WriteLine($"Вершина {vertices[u].Id} відвідана {++j}-ою");
+            vertices[u].State = VertexState.Active;
+            Console.WriteLine($"Вершина {vertices[u].Id} була відвідана {++j}-ою");
+            yield return () => OnRedrawNeeded?.Invoke();
 
             for (int v = 0; v < n; v++)
             {
@@ -37,9 +38,14 @@ public static class GraphSearchUtils
                     parent[v] = u;
                     treeTraversalMatrix[u, v] = 1;
                     queue.Enqueue(v);
+
+                    vertices[v].State = VertexState.Visited;
                     yield return () => OnEdgeVisited?.Invoke(u, v);
                 }
             }
+
+            vertices[u].State = VertexState.Closed;
+            yield return () => OnRedrawNeeded?.Invoke();
         }
 
         Console.WriteLine("\nОбхід в ширину завершено.");
@@ -65,8 +71,9 @@ public static class GraphSearchUtils
         IEnumerable<Action> DFS(int u)
         {
             visited[u] = true;
-            yield return () => OnVertexVisited?.Invoke(vertices[u]);
             Console.WriteLine($"Вершина {vertices[u].Id} відвідана {++j}-ою");
+            vertices[u].State = VertexState.Active;
+            yield return () => OnRedrawNeeded?.Invoke();
 
             for (int v = 0; v < n; v++)
             {
@@ -74,12 +81,17 @@ public static class GraphSearchUtils
                 {
                     parent[v] = u;
                     treeTraversalMatrix[u, v] = 1;
+
+                    vertices[v].State = VertexState.Visited;
                     yield return () => OnEdgeVisited?.Invoke(u, v);
 
                     foreach (var action in DFS(v))
                         yield return action;
                 }
             }
+
+            vertices[u].State = VertexState.Closed;
+            yield return () => OnRedrawNeeded?.Invoke();
         }
 
         foreach (var action in DFS(startId))

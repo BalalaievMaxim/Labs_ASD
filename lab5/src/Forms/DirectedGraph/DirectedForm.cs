@@ -18,11 +18,7 @@ public partial class DirectedForm : Form
         _vertices = vertices;
         _edges = edges;
 
-        GraphSearchUtils.OnVertexVisited += (v) =>
-        {
-            v.Visited = true;
-            Invalidate();
-        };
+        GraphSearchUtils.OnRedrawNeeded += Invalidate;
 
         GraphSearchUtils.OnEdgeVisited += (v1, v2) =>
         {
@@ -67,7 +63,13 @@ public partial class DirectedForm : Form
 
     private void DrawVertex(Graphics g, Vertex vertex)
     {
-        var color = vertex.Visited ? Color.LightCoral : Color.LightGray;
+        var color = vertex.State switch
+        {
+            VertexState.Visited => Color.Gold,
+            VertexState.Active => Color.LightCoral,
+            VertexState.Closed => Color.LightGreen,
+            _ => Color.LightGray,
+        };
 
         g.FillEllipse(new SolidBrush(color),
             vertex.Point.X - Vertex.Radius,
@@ -77,7 +79,7 @@ public partial class DirectedForm : Form
 
         g.DrawString(
             vertex.Id.ToString(),
-            this.Font,
+            Font,
             Brushes.Black,
             vertex.Point.X - _textOffset,
             vertex.Point.Y - _textOffset);
