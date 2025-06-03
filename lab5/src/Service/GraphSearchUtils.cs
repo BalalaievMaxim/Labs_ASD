@@ -66,13 +66,16 @@ public static class GraphSearchUtils
 
         int[,] treeTraversalMatrix = new int[n, n];
 
+        int prev = -1;
         int j = 0;
         // рекурсія
         IEnumerable<Action> DFS(int u)
         {
             visited[u] = true;
             Console.WriteLine($"Вершина {vertices[u].Id} відвідана {++j}-ою");
+            if (prev != -1) vertices[prev].State = VertexState.Visited;
             vertices[u].State = VertexState.Active;
+            prev = u;
             yield return () => OnRedrawNeeded?.Invoke();
 
             for (int v = 0; v < n; v++)
